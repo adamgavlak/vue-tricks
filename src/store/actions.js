@@ -6,7 +6,7 @@ if (process.env.NODE_ENV === 'development')
     baseURL = "http://localhost:4000"
 
 if (process.env.NODE_ENV === 'staging')
-    baseURL = "https://api.staging.vue-tricks.com"
+    baseURL = "http://api.staging.vue-tricks.com"
 
 const api = new Axios.create({
     baseURL: baseURL,
@@ -20,7 +20,7 @@ export const actions = {
         api.get('/components', {params: {page: page}}).then(res => {
             commit('assignComponents', res.data)
             commit('loadingComponents', false)
-        })
+        }).catch(e => console.log(e))
     },
 
     nextComponentsPage({ dispatch, state }) {

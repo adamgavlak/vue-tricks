@@ -1,11 +1,8 @@
 <template>
     <div>
-        <h2>📒  Components</h2>
+        <h2>📒 Components</h2>
         <div class="components">
             <com v-for="component in components" :key="component.id" :component="component"></com>
-            <div class="row" v-if="loading">
-                <div class="col-12">Loading</div>
-            </div>
         </div>
 
         <pagination></pagination>

@@ -10,8 +10,8 @@
           <div v-text="component.author"></div>
       </div>
       <div class="col-md-2 col-xs-6 end-xs actions">
-          <a href="#" class="link" target="_blank" title="Repository">📦</a>
-          <a href="#" class="link" title="Demo">📺</a>
+          <a href="#" class="link link--emoji" target="_blank" title="Repository">📦</a>
+          <a href="#" class="link link--emoji" title="Demo">📺</a>
       </div>
   </div>
 </template>
@@ -28,5 +28,9 @@ export default {
 
 .actions a
     padding 0 0 0 0.5em
+
+.link
+    &--emoji
+        font-size 1.25em
 </style>
 

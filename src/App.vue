@@ -72,6 +72,7 @@ button
   padding 2.4em
   box-shadow 0 2px 15px rgba(#54665F, 25%), 0 15px 35px rgba(#325D55, 10%)
   border-radius 4px
+  transition height .5s ease-in-out
 
 .header
   display flex
@@ -145,5 +146,48 @@ a.btn
 footer
   color #BABFBD
   text-align center
+
+.loader,
+.loader:after {
+  border-radius: 50%;
+  width: 3em;
+  height: 3em;
+}
+.loader {
+  display: block;
+  margin: 0 auto;
+  font-size: 10px;
+  position: relative;
+  text-indent: -9999em;
+  border-top: 0.35em solid rgba(primary, 0.1);
+  border-right: 0.35em solid rgba(primary, 0.1);
+  border-bottom: 0.35em solid rgba(primary, 0.1);
+  border-left: 0.35em solid primary;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation: load8 1.1s infinite linear;
+  animation: load8 1.1s infinite linear;
+}
+@-webkit-keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes load8 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
 
 </style>

@@ -4,11 +4,15 @@ import 'normalize.css'
 import 'flexboxgrid'
 
 import Vue from 'vue'
+import Notification from 'vue-notification'
+
 import App from './App'
 import router from './router'
 import store from './store'
 
 Vue.config.productionTip = false
+
+Vue.use(Notification)
 
 /* eslint-disable no-new */
 new Vue({

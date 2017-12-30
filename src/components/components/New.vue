@@ -3,36 +3,14 @@
         <h2>Submit new component</h2>
 
         <div class="form__group">
-            <label for="name">Name</label>
-            <input type="text" v-model="component.name">
-            <small class="form__helper">Name of the component</small>
-        </div>
-
-        <div class="form__group">
-            <label for="name">Author</label>
-            <input type="text" v-model="component.author">
-        </div>
-
-        <div class="form__group">
-            <label for="name">Description</label>
-            <input type="text" v-model="component.description">
-            <small class="form__helper">Short description of what the component does</small>
-        </div>
-
-        <div class="form__group">
             <label for="name">Repository</label>
             <input type="text" v-model="component.repository">
             <small class="form__helper">Git repository of the project</small>
         </div>
 
-        <div class="form__group">
-            <label for="name">Installation snippet</label>
-            <input type="text" v-model="component.snippet">
-            <small class="form__helper">Snippet for terminal, e.g.: <code>npm install vue-component</code></small>
-        </div>
-
-        <div class="form__group">
-            <button type="submit" class="btn btn--primary">Send →</button>
+        <div class="form__submit">
+            <button type="submit" class="btn btn--primary" :disabled="loading">Send →</button>
+            <span class="loader loader--inline" v-if="loading"></span>
         </div>
     </form>
 </template>
@@ -42,15 +20,37 @@ export default {
     data() {
         return {
             component: {
-                name: "",
-                description: "",
-            }
+                repository: ""
+            },
+            loading: false
         }
     },
 
     methods: {
         create() {
-            console.log("create new component")
+            if (this.component.repository === "")
+            {
+                this.$notify({
+                    group: 'main',
+                    title: 'Repository cannot be empty 😠',
+                    type: 'danger'
+                })
+                return;
+            }
+
+
+            this.loading = true
+            this.$notify({
+                group: 'main',
+                title: 'Component submitted 😊',
+                type: 'success'
+            })
+
+            this.$notify({
+                group: 'main',
+                title: 'Oh no! Something went wrong 😵',
+                type: 'danger'
+            })
         }
     }
 }
@@ -61,10 +61,19 @@ primary = #41B883
 secondary = #35495E
 color__gray = #BABFBD
 
+.btn[disabled="disabled"]
+    background color__gray
+    cursor not-allowed
+
 .form
     &__helper
         margin-top 0.4em
         color gray
+
+    &__submit
+        display flex
+        align-items center
+        justify-content flex-start
 
     &__group
         display flex

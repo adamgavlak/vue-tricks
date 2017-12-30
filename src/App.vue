@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <notifications group="main" position="top center" classes="notification"></notifications>
     <header class="header">
       <router-link :to="{ name: 'about' }" class="brand">
         <img src="./assets/logo.svg" height="32px" alt="Vue-Tricks Logo">
@@ -8,11 +9,25 @@
           <div class="dark">Tricks</div>
         </h1>
       </router-link>
-      <nav class="navigation" role="navigation">
-        <router-link :to="{ name: 'about' }" class="navigation__link">About</router-link>
-        <router-link :to="{ name: 'components#index' }" class="navigation__link">Components</router-link>
-        <router-link :to="{ name: 'components#new' }" class="navigation__link btn btn--primary">Submit a component</router-link>
+      <nav class="navigation js-menu" role="navigation">
+        <router-link :to="{ name: 'about' }" class="navigation__link">
+          <span @click="closeMenu">About</span>
+        </router-link>
+        <router-link :to="{ name: 'components#index' }" class="navigation__link" @click="closeMenu">
+          <span @click="closeMenu">Components</span>
+        </router-link>
+        <router-link :to="{ name: 'components#new' }" class="navigation__link btn btn--primary" @click="closeMenu">
+          <span @click="closeMenu">Submit a component</span>
+        </router-link>
       </nav>
+      <div class="navigation__mobile">
+        <span class="navigation__mobile--text">Menu</span>
+        <button class="hamburger hamburger--elastic" type="button">
+          <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+          </span>
+        </button>
+      </div>
     </header>
 
     <main class="container">
@@ -27,7 +42,37 @@
 
 <script>
 export default {
-  name: 'app'
+  name: 'app',
+  mounted() {
+    let mobile = document.querySelector(".navigation__mobile")
+    let menu = document.querySelector(".js-menu")
+    let navigation = document.querySelector('.navigation')
+
+    if (mobile && menu)
+    {
+      mobile.addEventListener('click', (e) => {
+        if (menu.classList.contains('is-open')) {
+          menu.classList.remove('is-open')
+          mobile.children[1].classList.remove('is-active')
+        }
+        else {
+          menu.classList.add('is-open')
+          mobile.children[1].classList.add('is-active')
+        }
+      })
+    }
+  },
+  methods: {
+    closeMenu() {
+      let mobile = document.querySelector(".navigation__mobile")
+      let menu = document.querySelector(".js-menu")
+
+      if (menu.classList.contains('is-open')) {
+          menu.classList.remove('is-open')
+          mobile.children[1].classList.remove('is-active')
+      }
+    }
+  }
 }
 </script>
 
@@ -45,6 +90,9 @@ body
   color: #222
   margin-top: 20px
   background bg_color
+
+#app
+  padding 0 1em
 
 *
   box-sizing border-box
@@ -69,7 +117,7 @@ button
   max-width 65em
   margin 1.5em auto 2em
   background #ffffff
-  padding 2.4em
+  padding 1em
   box-shadow 0 2px 15px rgba(#54665F, 25%), 0 15px 35px rgba(#325D55, 10%)
   border-radius 4px
   transition height .5s ease-in-out
@@ -79,6 +127,8 @@ button
   max-width 65em
   margin 0 auto
   justify-content space-between
+  align-items center
+  position relative
 
   .brand
     display flex
@@ -89,6 +139,23 @@ button
       font-size 1em
       position relative
       top -2px
+
+
+.navigation
+  display none
+  position absolute
+  background bg_color
+  top 3em
+  right 0
+  padding 1em
+  border-radius 4px
+  z-index 999
+  box-shadow 0 2px 15px rgba(#54665F, 15%), 0 15px 35px rgba(#325D55, 10%)
+
+.navigation.is-open
+  display flex
+  align-items flex-end
+  flex-flow column
 
 .navigation__link, a.link
   color primary
@@ -146,12 +213,20 @@ a.btn
 footer
   color #BABFBD
   text-align center
+  margin-bottom 1em
+  max-width 70%
+  margin 0 auto 1em
+  line-height 1.4
 
 .loader,
 .loader:after {
   border-radius: 50%;
   width: 3em;
   height: 3em;
+}
+.loader.loader--inline {
+  display inline-block
+  margin 0 1em
 }
 .loader {
   display: block;
@@ -190,4 +265,66 @@ footer
   }
 }
 
+color__success = #28A745
+color__danger = #DC3545
+
+.notifications {
+  margin-top 0
+}
+
+.notification {
+  // Style of the notification itself
+  background primary
+  border-radius 4px
+  display block
+  box-shadow 0 2px 10px rgba(#54665F, 35%), 0 10px 25px rgba(#325D55, 15%)
+
+  &-wrapper {
+    padding 1em 1em 1.5em
+  }
+
+  &-title {
+    // Style for title line
+    color #ffffff
+    padding 0.75em
+    font-size 1em
+    line-height 1.4
+    text-align center
+  }
+
+  &-content {
+    // Style for content
+  }
+
+  &.my-type {
+    /*
+    Style for specific type of notification, will be applied when you
+    call notification with "type" parameter:
+    this.$notify({ type: 'my-type', message: 'Foo' })
+    */
+  }
+
+  &.success {
+    background color__success
+  }
+
+  &.danger {
+    background color__danger
+  }
+}
+
+@media (min-width: 40em)
+  .container
+    padding 2.4em
+
+  .navigation
+    display block
+    box-shadow none
+    background none
+    position relative
+    top 0
+    padding 0
+
+  .navigation__mobile
+    display none
 </style>

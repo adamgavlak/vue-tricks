@@ -1,16 +1,13 @@
 <template>
-  <div class="row middle-xs">
-    <div class="col-md-3 col-xs-12">
-        <div v-text="component.name"></div>
+  <div class="row component middle-xs">
+    <div class="col-md-3 col-xs-8 component__name">
+        <span v-text="component.name"></span>
     </div>
-    <div class="col-md-5 col-xs-12">
+    <div class="col-md-5 component__description">
         <div v-text="component.description"></div>
     </div>
 
-    <div class="col-md-2 col-xs-6 end-xs">
-        <router-link :to="'/compontents/tagged/' + tag.slug" v-for="tag in component.tags" :key="tag.name" v-text="tag.name" class="tag"></router-link>
-    </div>
-    <div class="col-md-2 col-xs-6 end-xs actions">
+    <div class="col-md-4 col-xs-4 start-xs end-md actions">
         <a href="#" class="link--emoji" target="_blank" title="Repository">📦<div class="tooltip tooltip--repo">Repository</div></a>
         <a href="#" class="link--emoji" title="Demo">📺<div class="tooltip">Demo</div></a>
     </div>
@@ -30,15 +27,13 @@ secondary = #35495E
 .row
     margin 0.75em 0
 
-.actions a
-    padding 0 0 0 0.5em
-
 .link
     &--emoji
         font-size 1.5em
         position relative
         text-decoration none
         top 0.2em
+        padding 0 0 0 0.5em
 
         &:hover
             text-decoration none
@@ -60,6 +55,15 @@ secondary = #35495E
 
     &--repo
         left -1em
+
+.component
+    &__description
+        display none
+
+@media (min-width 40em)
+    .component
+        &__description
+            display block
 
 .tag
     font-size 0.8em

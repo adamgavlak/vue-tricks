@@ -1,17 +1,4 @@
-import Axios from 'axios'
-
-let baseURL = "https://api.vue-tricks.com"
-
-if (process.env.NODE_ENV === 'development')
-    baseURL = "http://localhost:4000"
-
-if (process.env.NODE_ENV === 'staging')
-    baseURL = "http://api.staging.vue-tricks.com"
-
-const api = new Axios.create({
-    baseURL: baseURL,
-    timeout: 2000
-})
+import { api } from '../api'
 
 export const actions = {
     fetchComponents({ commit }, page = 1) {
@@ -36,5 +23,9 @@ export const actions = {
             commit('setComponentsPage', page)
             dispatch('fetchComponents', page)
         }
+    },
+
+    postSuggestion({ state }, recaptcha) {
+
     }
 }

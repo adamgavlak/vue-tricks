@@ -4,9 +4,11 @@
 
         <div class="form__group">
             <label for="name">Repository</label>
-            <input type="text" v-model="component.repository">
+            <input type="text" v-model="suggestion.repository">
             <small class="form__helper">Git repository of the project</small>
         </div>
+
+        <vue-recaptcha @verify="onVerify" ref="recaptcha" sitekey="6LdbDz8UAAAAAC82uobt8M3gH7GsndvKGsKs0LWO"></vue-recaptcha>
 
         <div class="form__submit">
             <button type="submit" class="btn btn--primary" :disabled="loading">Send →</button>
@@ -16,19 +18,38 @@
 </template>
 
 <script>
+import { isWebUri } from 'valid-url'
+import { api } from '../../api'
+import VueRecaptcha from 'vue-recaptcha'
+
 export default {
+    components: {
+        VueRecaptcha
+    },
     data() {
         return {
-            component: {
-                repository: ""
+            suggestion: {
+                repository: "",
             },
+            recaptcha: "",
+            verified: false,
             loading: false
         }
     },
 
     methods: {
         create() {
-            if (this.component.repository === "")
+            if (this.recaptcha === "" || this.verified === false)
+            {
+                this.$notify({
+                    group: 'main',
+                    title: 'Are you a robot? 🤖',
+                    type: 'danger'
+                })
+                return;
+            }
+
+            if (this.suggestion.repository === "")
             {
                 this.$notify({
                     group: 'main',
@@ -38,19 +59,45 @@ export default {
                 return;
             }
 
+            if (!isWebUri(this.suggestion.repository))
+            {
+                this.$notify({
+                    group: 'main',
+                    title: 'Repository must be valid URL 😠',
+                    type: 'danger'
+                })
+                return;
+            }
 
             this.loading = true
-            this.$notify({
-                group: 'main',
-                title: 'Component submitted 😊',
-                type: 'success'
+            api.post('/suggestions', {
+                suggestion: this.suggestion,
+                recaptcha: this.recaptcha
+            }).then(_ => {
+                this.$notify({
+                    group: 'main',
+                    title: 'Thank you for a suggestion 😊',
+                    type: 'success'
+                })
+                this.reset()
+                this.suggestion.repository = ""
+                this.loading = false
+            }).catch(e => {
+                this.$notify({
+                    group: 'main',
+                    title: 'Oh no! Something went wrong 😵',
+                    type: 'danger'
+                })
+                this.reset()
+                this.loading = false
             })
-
-            this.$notify({
-                group: 'main',
-                title: 'Oh no! Something went wrong 😵',
-                type: 'danger'
-            })
+        },
+        onVerify(response) {
+            this.recaptcha = response
+            this.verified = true
+        },
+        reset() {
+            this.$refs.recaptcha.reset()
         }
     }
 }
@@ -74,6 +121,7 @@ color__gray = #BABFBD
         display flex
         align-items center
         justify-content flex-start
+        margin-top 1em
 
     &__group
         display flex

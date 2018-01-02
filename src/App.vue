@@ -21,7 +21,7 @@
         </router-link>
       </nav>
       <div class="navigation__mobile">
-        <span class="navigation__mobile--text">Menu</span>
+        <span class="navigation__mobile--text"></span>
         <button class="hamburger hamburger--elastic" type="button">
           <span class="hamburger-box">
             <span class="hamburger-inner"></span>
@@ -142,20 +142,21 @@ button
 
 
 .navigation
-  display none
+  display flex
+  align-items flex-start
+  flex-flow column
   position absolute
   background bg_color
   top 3em
-  right 0
+  right -250px
   padding 1em
   border-radius 4px
   z-index 999
   box-shadow 0 2px 15px rgba(#54665F, 15%), 0 15px 35px rgba(#325D55, 10%)
+  transition all 0.25s ease-in-out
 
 .navigation.is-open
-  display flex
-  align-items flex-end
-  flex-flow column
+  right 0
 
 .navigation__link, a.link
   color primary
@@ -170,7 +171,10 @@ button
     color darken(primary, 30%)
 
 .navigation__link
-  padding 0 0.7em
+  padding 0.5em 0.7em
+
+  &.btn
+    margin-top 0.5em
 
 a.btn
   text-decoration none
@@ -313,6 +317,81 @@ color__danger = #DC3545
   }
 }
 
+/*!
+ * Hamburgers
+ * @description Tasty CSS-animated hamburgers
+ * @author Jonathan Suh @jonsuh
+ * @site https://jonsuh.com/hamburgers
+ * @link https://github.com/jonsuh/hamburgers
+ */
+.hamburger {
+  padding: 0;
+  display: inline-block;
+  cursor: pointer;
+  transition-property: opacity, filter;
+  transition-duration: 0.15s;
+  transition-timing-function: linear;
+  font: inherit;
+  color: inherit;
+  text-transform: none;
+  background-color: transparent;
+  border: 0;
+  margin: 0 0.5em 0;
+  overflow: visible;
+  outline: none  }
+
+.hamburger-box {
+  width: 20px;
+  height: 0.75em;
+  display: inline-block;
+  position: relative; }
+
+.hamburger-inner {
+  display: block;
+  top: 50%;
+  margin-top: -2px; }
+
+  .hamburger-inner, .hamburger-inner::before, .hamburger-inner::after {
+    width: 20px;
+    height: 3px;
+    background-color: primary;
+    border-radius: 4px;
+    position: absolute;
+    transition-property: transform;
+    transition-duration: 0.15s;
+    transition-timing-function: ease; }
+  .hamburger-inner::before, .hamburger-inner::after {
+    content: "";
+    display: block; }
+  .hamburger-inner::before {
+    top: -7px; }
+  .hamburger-inner::after {
+    bottom: -7px; }
+
+/*
+   * Elastic
+   */
+.hamburger--elastic .hamburger-inner {
+  top: 2px;
+  transition-duration: 0.275s;
+  transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+  .hamburger--elastic .hamburger-inner::before {
+    top: 7px;
+    transition: opacity 0.125s 0.275s ease; }
+  .hamburger--elastic .hamburger-inner::after {
+    top: 14px;
+    transition: transform 0.275s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+
+.hamburger--elastic.is-active .hamburger-inner {
+  transform: translate3d(0, 7px, 0) rotate(135deg);
+  transition-delay: 0.075s; }
+  .hamburger--elastic.is-active .hamburger-inner::before {
+    transition-delay: 0s;
+    opacity: 0; }
+  .hamburger--elastic.is-active .hamburger-inner::after {
+    transform: translate3d(0, -14px, 0) rotate(-270deg);
+    transition-delay: 0.075s; }
+
 @media (min-width: 40em)
   .container
     padding 2.4em
@@ -323,6 +402,7 @@ color__danger = #DC3545
     background none
     position relative
     top 0
+    right 0
     padding 0
 
   .navigation__mobile

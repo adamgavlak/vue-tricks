@@ -7,18 +7,19 @@
 
     <div class="row center-xs row--narrow">
       <div class="col-md-6 col-12-xs btn--about">
-        <router-link :to="{ name: 'components#index' }" class="btn btn--secondary">Show components</router-link>
+        <router-link :to="{ name: 'components#index' }" class="btn btn--secondary"><emoji emoji="ledger" :size="16"/> Show components</router-link>
       </div>
       <div class="col-md-6 col-12-xs btn--about">
-        <router-link :to="{ name: 'components#new' }" class="btn btn--primary">Submit a component</router-link>
+        <router-link :to="{ name: 'components#new' }" class="btn btn--primary">📮 Submit a component</router-link>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { Emoji } from "emoji-mart-vue"
 export default {
-
+  components: { emoji: Emoji }
 }
 </script>
 
@@ -49,13 +50,18 @@ h2
 .btn--about
   margin-top 1em
 
+  .emoji-mart-emoji
+    position relative
+    top 2px
+    left -2px
+
 .row--narrow
   max-width 100%
   margin 3em auto 0
 
 @media (min-width: 40em)
   .row--narrow
-    max-width 40%
+    max-width 42.5%
 
   .btn--about
     padding 0

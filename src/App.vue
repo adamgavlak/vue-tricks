@@ -192,6 +192,7 @@ a.btn
   border none
   border-radius 4px
   cursor pointer
+  white-space nowrap
 
   &--secondary
     color primary
@@ -199,7 +200,9 @@ a.btn
     border 1px solid primary
 
     &:hover
-      background darken(primary, 15%)
+      hover_color = darken(primary, 15%)
+      background hover_color
+      border 1px solid hover_color
 
     &:active
       background darken(primary, 30%)
@@ -207,6 +210,7 @@ a.btn
   &--primary
     color #ffffff
     background primary
+    border 1px solid primary
 
     &:hover
       background darken(primary, 15%)
